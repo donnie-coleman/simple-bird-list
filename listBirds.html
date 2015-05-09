@@ -1,0 +1,29 @@
+Choose a Birding List Year: <select name="year">
+	<option value="0ApY2PdXZDxl2dDAtdU5FX05saTJaYkNKb3ZzdDU5LXc">2013</option>
+	<option value="0ApY2PdXZDxl2dFphWVRpazlmdmhWcXNNazRndmJ3VWc">2012</option>
+</select>
+
+<div id="birdList">Loading...</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="http://itsdonnie.com/wp-includes/js/scripts/listBirds-beta.js"></script> -->
+<script type="text/javascript" src="listBirds.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var url_start = "https://spreadsheets.google.com/feeds/cells/";
+		var url_end = "/1/public/values?";
+		$("select[name=year]").change(function(){
+			var key = $(this).val();
+			$.ajax({
+				url: url_start+key+url_end,
+				data: {alt: "json-in-script"},
+				dataType: "jsonp",
+				cache: true,
+				success: function(root){
+					listBirds(root);
+				}
+			});
+		});
+		$("select[name=year]").trigger("change");
+	});
+</script>
